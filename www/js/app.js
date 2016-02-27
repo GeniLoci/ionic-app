@@ -34,6 +34,18 @@ angular.module('geniusLoci', ['ionic', 'ngCordova', 'ngMap', 'geniusLoci.control
     url: '/home',
     templateUrl: 'templates/home.html',
     controller: 'HomeCtrl'
+  })
+
+  .state('photograph', {
+    url: '/photograph',
+    templateUrl: 'templates/photograph.html',
+    controller: 'PhotographCtrl'
+  })
+
+  .state('record', {
+    url: '/record',
+    templateUrl: 'templates/record.html',
+    controller: 'RecordCtrl'
   });
 
   // if none of the above states are matched, use this as the fallback

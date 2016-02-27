@@ -1,29 +1,33 @@
-<ion-view view-title="Welcome to geniusLoci">
+<ion-view view-title="Welcome to geniusLoci" cache-view="false">
   <ion-content class="padding">
 
     <!-- Location Info -->
+
     <h2 class="title">
       <i class="icon ion-ios-location"></i> Your Current Location
     </h2>
 
-    <strong>{{location.name}}</strong>
+    <div ng-hide="location.name">
+      <ion-spinner></ion-spinner>
+    </div>
 
+    <h4 class="title" ng-show="location.name">{{location.name}}</h4>
     <p>
-      <ng-map center="{{location.latitude}},{{location.longitude}}" zoom="15">
-        <marker position="{{location.latitude}},{{location.longitude}}"></marker>
+      <ng-map center="{{location.lat}},{{location.lng}}" zoom="15">
+        <marker position="{{location.lat}},{{location.lng}}"></marker>
       </ng-map>
     </p>
 
 
     <!-- Action Buttons -->
-    <button class="button button-full button-large button-home button-positive">
+    <a class="button button-full button-large button-home" ng-href="#/record">
       <i class="icon ion-mic-a"></i> <br/>
       Make a recording
-    </button>
-    <button class="button button-full button-large button-home button-positive">
+    </a>
+    <a class="button button-full button-large button-home" ng-href="#/photograph">
       <i class="icon ion-camera"></i> <br/>
-      Take a picture
-    </button>
+      Take a Photograph
+    </a>
 
 
   </ion-content>

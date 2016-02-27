@@ -9734,3 +9734,7 @@ a.button {
 .button-home {
   height: 15vh;
   font-size: 1.5em; }
+
+.img-responsive {
+  width: 100%;
+  height: auto; }
