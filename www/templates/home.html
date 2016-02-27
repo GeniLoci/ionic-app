@@ -1,4 +1,30 @@
 <ion-view view-title="Welcome to geniusLoci">
   <ion-content class="padding">
+
+    <!-- Location Info -->
+    <h2 class="title">
+      <i class="icon ion-ios-location"></i> Your Current Location
+    </h2>
+
+    <strong>{{location.name}}</strong>
+
+    <p>
+      <ng-map center="{{location.latitude}},{{location.longitude}}" zoom="15">
+        <marker position="{{location.latitude}},{{location.longitude}}"></marker>
+      </ng-map>
+    </p>
+
+
+    <!-- Action Buttons -->
+    <button class="button button-full button-large button-home button-positive">
+      <i class="icon ion-mic-a"></i> <br/>
+      Make a recording
+    </button>
+    <button class="button button-full button-large button-home button-positive">
+      <i class="icon ion-camera"></i> <br/>
+      Take a picture
+    </button>
+
+
   </ion-content>
 </ion-view>

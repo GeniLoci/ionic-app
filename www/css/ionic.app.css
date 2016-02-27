@@ -9730,3 +9730,7 @@ a.button {
   opacity: 0;
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
+
+.button-home {
+  height: 15vh;
+  font-size: 1.5em; }
