@@ -1,5 +1,8 @@
 <ion-view view-title="Make A Recording">
   <ion-content class="padding">
-
+    <div class="stopwatch">{{time | date : 'mm:ss'}}</div>
+    <a class="button button-full" ng-class="{'button-balanced' : !isRecording, 'button-assertive' : isRecording}" ng-click="toggleRecording()">
+      {{ !isRecording ? 'Start' : 'Stop' }}
+    </a>
   </ion-content>
 </ion-view>

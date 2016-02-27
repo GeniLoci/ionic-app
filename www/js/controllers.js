@@ -1,6 +1,6 @@
 angular.module('geniusLoci.controllers', [])
 
-.controller('HomeCtrl', function($scope, $cordovaGeolocation, $ionicPopup, NgMap) {
+.controller('HomeCtrl', function($scope, $cordovaGeolocation, $ionicPopup, NgMap, Entry) {
 
   //Location object
   $scope.location = {lat: 0, lng: 0, name: 0};
@@ -14,6 +14,7 @@ angular.module('geniusLoci.controllers', [])
         lng:  position.coords.longitude,
         name: null
       }
+      Entry.setLocation($scope.location.lat, $scope.location.lng);
       $scope.lookupInfo();
     })
     .catch(function(err) {
@@ -43,20 +44,45 @@ angular.module('geniusLoci.controllers', [])
 
 })
 
-.controller('RecordCtrl', function($scope) {
-    console.log('test record');
+.controller('RecordCtrl', function($scope, $ionicPopup, $interval, Entry) {
+
+  $scope.time = 0;
+  $scope.isRecording = false;
+  $scope.recording = {file: null, filePath: null};
+
+  $interval(function() {
+    if($scope.isRecording) {
+      $scope.time += 1000;
+    }
+  }, 1000);
+
+  $scope.toggleRecording = function() {
+    $scope.isRecording = !$scope.isRecording;
+
+    if($scope.isRecording) {
+      navigator.device.capture.captureAudio
+        .then(function(e) {
+          console.log(e);
+          $scope.recording.file = e[0].localURL;
+          $scope.recording.filePath = e[0].fullPath;
+        })
+        .catch(function(err) {
+        })
+    }
+
+
+  }
+
 })
 
-.controller('PhotographCtrl', function($scope, $state, Camera) {
-
+.controller('PhotographCtrl', function($scope, $state, PhoneCamera, Entry) {
   $scope.image = null;
 
-  Camera.getPicture()
-    .then(function(imageURI) {
-      $scope.image = imageURI;
+  PhoneCamera.getPicture({destinationType: navigator.camera.DestinationType.DATA_URL})
+    .then(function(imageData) {
+      Entry.setFile("data:image/jpeg;base64," + imageData)
     })
     .catch(function() {
       $state.go('home');
     });
-
 });

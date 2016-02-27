@@ -9738,3 +9738,12 @@ a.button {
 .img-responsive {
   width: 100%;
   height: auto; }
+
+.stopwatch {
+  font-size: 72px;
+  padding: 30px;
+  font-family: monospace;
+  text-align: center;
+  margin-top: 0px;
+  background: #EEE;
+  border: #CCC; }
