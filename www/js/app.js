@@ -37,7 +37,12 @@ angular.module('geniusLoci', ['ionic', 'ngCordova', 'ngMap', 'restangular', 'gen
   .state('home', {
     url: '/home',
     templateUrl: 'templates/home.html',
-    controller: 'HomeCtrl'
+    controller: 'HomeCtrl',
+    resolve: {
+      markers: function(Restangular) {
+        return Restangular.all('entries').getList();
+      }
+    }
   })
 
   .state('photograph', {
@@ -50,6 +55,23 @@ angular.module('geniusLoci', ['ionic', 'ngCordova', 'ngMap', 'restangular', 'gen
     url: '/record',
     templateUrl: 'templates/record.html',
     controller: 'RecordCtrl'
+  })
+
+  .state('upload', {
+    url: '/upload',
+    templateUrl: 'templates/upload.html',
+    controller: 'UploadCtrl'
+  })
+
+  .state('view', {
+    url: '/view/:id',
+    templateUrl: 'templates/view.html',
+    controller: 'ViewCtrl',
+    resolve: {
+      entry: function(Restangular, $stateParams) {
+        return Restangular.one('entries', $stateParams.id).get();
+      }
+    }
   });
 
   // if none of the above states are matched, use this as the fallback

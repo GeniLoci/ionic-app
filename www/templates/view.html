@@ -1,0 +1,12 @@
+<ion-view view-title="{{entry.name}}">
+  <ion-content class="padding">
+    <div style="text-align:center;">
+      <img ng-src="{{entry.entities[0].entity.url}}" class="img-responsive"/>
+
+      <ng-map center="{{entry.latitude}},{{entry.longitude}}" zoom="15">
+        <marker position="{{entry.latitude}},{{entry.longitude}}"></marker>
+      </ng-map>
+
+    </div>
+  </ion-content>
+</ion-view>

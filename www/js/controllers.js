@@ -1,6 +1,9 @@
 angular.module('geniusLoci.controllers', [])
 
-.controller('HomeCtrl', function($scope, $cordovaGeolocation, $ionicPopup, NgMap, Entry) {
+.controller('HomeCtrl', function($scope, $cordovaGeolocation, $state, $ionicPopup, NgMap, Entry, markers) {
+
+  $scope.markers = markers;
+  console.log(markers);
 
   //Location object
   $scope.location = {lat: 0, lng: 0, name: 0};
@@ -31,6 +34,7 @@ angular.module('geniusLoci.controllers', [])
         if (status === google.maps.GeocoderStatus.OK) {
           if(results.length > 0) {
             $scope.location.name = results[0].formatted_address;
+            Entry.setName($scope.location.name);
             $scope.$apply();
           }
         } else {
@@ -42,13 +46,17 @@ angular.module('geniusLoci.controllers', [])
       });
     }
 
+    $scope.showEntry = function(e, entry) {
+      console.log('click');
+      $state.go('view', {id: entry.id});
+    }
+
 })
 
 .controller('RecordCtrl', function($scope, $ionicPopup, $interval, Entry) {
-
+  //Actual recording needs programming in.
   $scope.time = 0;
   $scope.isRecording = false;
-  $scope.recording = {file: null, filePath: null};
 
   $interval(function() {
     if($scope.isRecording) {
@@ -58,31 +66,29 @@ angular.module('geniusLoci.controllers', [])
 
   $scope.toggleRecording = function() {
     $scope.isRecording = !$scope.isRecording;
-
-    if($scope.isRecording) {
-      navigator.device.capture.captureAudio
-        .then(function(e) {
-          console.log(e);
-          $scope.recording.file = e[0].localURL;
-          $scope.recording.filePath = e[0].fullPath;
-        })
-        .catch(function(err) {
-        })
-    }
-
-
   }
-
 })
 
 .controller('PhotographCtrl', function($scope, $state, PhoneCamera, Entry) {
+  //Take photograph, store base64.
   $scope.image = null;
-
   PhoneCamera.getPicture({destinationType: navigator.camera.DestinationType.DATA_URL})
     .then(function(imageData) {
-      Entry.setFile("data:image/jpeg;base64," + imageData)
+      Entry.setFile(imageData);
+      $state.go('upload');
     })
     .catch(function() {
       $state.go('home');
     });
+})
+
+.controller('UploadCtrl', function($scope, $state, Restangular, Entry) {
+  Restangular.all('entries').post(Entry.getObject())
+    .then(function(resp) {
+      $state.go('view', {id: resp.entry.id});
+    });
+})
+
+.controller('ViewCtrl', function($scope, NgMap, entry) {
+  $scope.entry = entry.entry;
 });

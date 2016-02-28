@@ -17,16 +17,16 @@ angular.module('geniusLoci.services', ['restangular'])
   }
 }])
 
-.service('Entry', function(Restangular) {
+.service('Entry', function() {
 
     this.entry = {
-      name: "A new entry",
+      name: "",
       latitude: 0.0,
       longitude: 0.0,
       file: {
         base64: null,
-        "content-type": null,
-        name: ""
+        filetype: "image/jpeg",
+        filename: "image.jpg"
       }
     }
 
@@ -37,21 +37,14 @@ angular.module('geniusLoci.services', ['restangular'])
     this.setLocation = function(lat, lng) {
       this.entry.latitude = lat;
       this.entry.longitude = lng;
-      this.send();
     }
 
-    this.setFile = function(file, type) {
-      console.log(file);
+    this.setFile = function(file) {
+      this.entry.file.base64 = file;
     }
 
-    this.send = function() {
-      Restangular.all('entries').post(this.entry)
-        .then(function() {
-
-        })
-        .catch(function() {
-
-        });
+    this.getObject = function() {
+      return this.entry;
     }
 
 
